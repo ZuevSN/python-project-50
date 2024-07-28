@@ -1,15 +1,12 @@
 import argparse
 import json
 
-# …
-
-
-
-
 # вывод справки
 # по умолчанию есть ключ -h (--help)
 # для добавления новых прописываем
 # что-то вроде parser.add_argument('count')- это позиционный аргумент
+
+
 def start():
     parser = argparse.ArgumentParser(description='Compares two configuration \
                                      files and shows a difference.')
@@ -17,7 +14,9 @@ def start():
     parser.add_argument('second_file')
     parser.add_argument('-f', '--format', help='set format of output')
     args = parser.parse_args()
-    read(args.first_file,args.second_file)
+    read(args.first_file, args.second_file)
+
+
 def read(path1, path2):
     data3 = {}
     data1 = json.load(open(path1))
@@ -37,9 +36,10 @@ def read(path1, path2):
     print('------')
     print(data3)
 
+
 def main():
     start()
-#poetry run gendiff file1.json file2.json
+#   poetry run gendiff file1.json file2.json
 #    start()
 
 
