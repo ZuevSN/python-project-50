@@ -32,6 +32,7 @@ def test_gendiff_json():
   + timeout: 20
   + verbose: true
 }'''
+
     result = gendiff(file1, file2)
 #    assert expected_output == result, 'ошибка функции gendiff' 
     assert diff_result == result
