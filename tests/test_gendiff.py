@@ -1,5 +1,6 @@
 import os
 import json
+import pytest
 #from gendiff.scripts.gendiff import sum
 from gendiff.scripts.gendiff import gendiff
 
@@ -36,3 +37,18 @@ def test_gendiff_json():
     result = gendiff(file1, file2)
 #    assert expected_output == result, 'ошибка функции gendiff' 
     assert diff_result == result
+
+@pytest.fixture(scope="module")
+def module_fixture():
+    print("Setup module fixture")
+    yield
+    print("Teardown module fixture")
+
+def test_one(module_fixture):
+    print("Running test_one")
+
+def test_two():  #  👈  Этот  тест  НЕ  использует  module_fixture
+    print("Running test_two")
+
+def test_three(module_fixture):
+    print("Running test_three")
