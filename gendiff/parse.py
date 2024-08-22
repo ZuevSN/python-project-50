@@ -1,6 +1,7 @@
 import json
 import yaml
 
+
 def convert_value(value):
     if value is False:
         return "false"
@@ -23,25 +24,24 @@ def json_obj_to_python(obj):
 
 def load_json(path):
     with open(path, "r") as f:
-#        data = json.load(f, object_hook=json_obj_to_python)
         data = json.load(f)
         return data
 
 
 def load_yaml(path):
     with open(path, 'r') as f:
-        data = yaml.load(f, Loader=yaml.FullLoader)
+        data = yaml.safe_load(f)
         return data
 
+
 def read_file(path):
-    data ={}
     extension = path.rsplit('.')[-1]
     print(extension)
     match extension:
         case 'json':
             data = load_json(path)
-        case 'yml'|'yaml':
+        case 'yml' | 'yaml':
             data = load_yaml(path)
         case _:
-            data ={}
+            data = {}
     return data

@@ -1,5 +1,4 @@
 import argparse
-import os
 from gendiff.parse import read_file
 
 # вывод справки
@@ -16,6 +15,7 @@ def parser():
     parser.add_argument('-f', '--format', help='set format of output')
     args = parser.parse_args()
     gendiff(args.first_file, args.second_file)
+
 
 def fix_value(value):
     if value is None:
@@ -50,7 +50,6 @@ def gendiff(path1, path2):
     return "{\n" + "\n".join(data3) + "\n}"
 
 
-
 def temp(path):
     data = read_file(path)
     print(data)
@@ -60,9 +59,7 @@ def main():
     parser()
 #    temp('file1.yml')
 
+
 #   poetry run gendiff file1.json file2.json
-
-
-
 if __name__ == "__main__":
     main()
