@@ -3,7 +3,7 @@ import json
 import pytest
 #from gendiff.scripts.gendiff import sum
 from gendiff.scripts.gendiff import gendiff
-
+#poetry run pytest tests/
 
 def get_fixture_path(name):
     return os.path.join('tests/fixtures', name)
@@ -24,8 +24,9 @@ def read_file(file_path, parse=False):
 def test_gendiff_json():
     file1 = get_fixture_path('file1.json')
     file2 = get_fixture_path('file2.json')
-    expected_output = read_file(get_fixture_path('result.json'), True)
-    diff_result = '''{
+#    expected_output = read_file(get_fixture_path('result.json'), True)
+    
+    expected_output = '''{
   - follow: false
     host: hexlet.io
   - proxy: 123.234.53.22
@@ -35,8 +36,8 @@ def test_gendiff_json():
 }'''
 
     result = gendiff(file1, file2)
-#    assert expected_output == result, 'ошибка функции gendiff' 
-    assert diff_result == result
+    assert expected_output == result, 'ошибка функции gendiff' 
+#    assert diff_result == result
 
 @pytest.fixture(scope="module")
 def module_fixture():
@@ -47,8 +48,10 @@ def module_fixture():
 def test_one(module_fixture):
     print("Running test_one")
 
-def test_two():  #  👈  Этот  тест  НЕ  использует  module_fixture
+def test_two():
     print("Running test_two")
 
 def test_three(module_fixture):
     print("Running test_three")
+
+#poetry run pytest tests/ -vv
