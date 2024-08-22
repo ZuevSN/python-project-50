@@ -7,11 +7,6 @@ gendiff:
 build:
 	poetry build
 
-check:
-	poetry build
-
-.PHONY: install test lint selfcheck check build
-
 publish:
 	poetry publish --dry-run
 
@@ -25,4 +20,4 @@ test:
 	poetry run pytest tests/ -vv
 
 test-coverage:
-	poetry run pytest --cov=hexlet_python_package --cov-report xml
+	poetry run pytest --cov=gendiff --cov-report xml
