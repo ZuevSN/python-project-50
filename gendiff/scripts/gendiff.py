@@ -16,13 +16,6 @@ def parser():
     args = parser.parse_args()
     gendiff(args.first_file, args.second_file)
 
-def stringify_values(obj):
-    if isinstance(obj, dict):
-        return {stringify_values(k): stringify_values(v) for k, v in obj.items()}
-    elif isinstance(obj, list):
-        return [stringify_values(x) for x in obj]
-    else:
-        return str(obj)
 
 def open_json_file(path):
     with open(path, 'r') as f:
@@ -30,26 +23,32 @@ def open_json_file(path):
     data = json.loads(file_content)
     return data
 
+
 def load_json(filepath):
     with open(filepath, "r") as f:
-        data = json.load(f, object_hook=json_obj_to_str)
+        data = json.load(f, object_hook=json_obj_to_python)
         return data
 
-def json_obj_to_str(obj):
-        if isinstance(obj, dict):
-            return {k: json_obj_to_str(v) for k, v in obj.items()}
-        elif isinstance(obj, list):
-            return [json_obj_to_str(x) for x in obj]
-        elif obj is False:
-            return "false"
-        elif obj is True:
-            return "true"
-        elif obj is None:
-            return "null"
-        elif isinstance(obj, int):
-            return obj
-        else:
-            return str(obj)
+
+def convert_value(value):
+    if value is False:
+        return "false"
+    elif value is True:
+        return "true"
+    elif value is None:
+        return "null"
+    else:
+        return value
+
+
+def json_obj_to_python(obj):
+    if isinstance(obj, dict):
+        return {k: json_obj_to_python(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [json_obj_to_python(x) for x in obj]
+    else:
+        return convert_value(obj)
+
 
 def gendiff(path1, path2):
     data3 = []
