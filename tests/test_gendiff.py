@@ -21,11 +21,12 @@ def read_file(file_path, parse=False):
         else:
             return content
 
-def test_gendiff_json():
-    file1 = get_fixture_path('file1.json')
-    file2 = get_fixture_path('file2.json')
+def test_gendiff():
+    file_json_1 = get_fixture_path('file1.json')
+    file_json_2 = get_fixture_path('file2.json')
 #    expected_output = read_file(get_fixture_path('result.json'), True)
-    
+    file_yml_1 = get_fixture_path('file1.yml')
+    file_yml_2 = get_fixture_path('file2.yml')
     expected_output = '''{
   - follow: false
     host: hexlet.io
@@ -35,9 +36,10 @@ def test_gendiff_json():
   + verbose: true
 }'''
 
-    result = gendiff(file1, file2)
-    assert expected_output == result, 'ошибка функции gendiff' 
-#    assert diff_result == result
+    result_json = gendiff(file_json_1, file_json_2)
+    assert expected_output == result_json, 'ошибка функции gendiff с json' 
+    result_yml = gendiff(file_yml_1, file_yml_2)
+    assert expected_output == result_yml, 'ошибка функции gendiff с yml' 
 
 @pytest.fixture(scope="module")
 def module_fixture():
