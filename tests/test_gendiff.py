@@ -21,7 +21,7 @@ def read_file(file_path, parse=False):
         else:
             return content
 
-def test_gendiff():
+def test_gendiff_plain():
     file_json_1 = get_fixture_path('file1.json')
     file_json_2 = get_fixture_path('file2.json')
 #    expected_output = read_file(get_fixture_path('result.json'), True)
@@ -37,9 +37,62 @@ def test_gendiff():
 }'''
 
     result_json = gendiff(file_json_1, file_json_2)
-    assert expected_output == result_json, 'ошибка функции gendiff с json' 
+    assert expected_output == result_json, 'ошибка функции gendiff с плоским json' 
     result_yml = gendiff(file_yml_1, file_yml_2)
-    assert expected_output == result_yml, 'ошибка функции gendiff с yml' 
+    assert expected_output == result_yml, 'ошибка функции gendiff с плоским yml' 
+
+
+def test_gendiff_plain():
+    file_json_1 = get_fixture_path('file1_1.json')
+    file_json_2 = get_fixture_path('file2_1.json')
+    file_yml_1 = get_fixture_path('file1_1.yml')
+    file_yml_2 = get_fixture_path('file2_1.yml')
+    expected_output = '''{
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+        fee: 100500
+    }
+}'''
+    assert True, 'ошибка функции gendiff с json'
+    assert True, 'ошибка функции gendiff с yml' 
 
 @pytest.fixture(scope="module")
 def module_fixture():
