@@ -15,14 +15,13 @@ def parser():
     parser.add_argument('second_file')
     parser.add_argument('-f', '--format',
                         default='stylish',
-#                        choises=['stylish'],
                         help='set format of output')
     args = parser.parse_args()
     gendiff(args.first_file, args.second_file, args.format)
 
 
 def gendiff(path1, path2, format='stylish'):
-    result =[]
+    result = []
     print(path1)
     data1 = read_file(path1)
     print(data1)
@@ -30,16 +29,14 @@ def gendiff(path1, path2, format='stylish'):
     print(data2)
     tree3 = alt_diff(data1, data2)
     print(format)
-    if format=='stylish':
+    if format == 'stylish':
         result = stylish_format(tree3)
         print('__________')
 #    tree4 = diff_out_easy(tree1)
         print("{\n" + "\n".join(result) + "\n}")
+        return "{\n" + "\n".join(result) + "\n}"
     # Пример списка
 # Запись списка в файл
-        with open('output.txt', 'w') as file:
-            for item in result:
-                file.write(f"{item}\n")
 
 
 def temp_read(path):
@@ -47,54 +44,55 @@ def temp_read(path):
     print(data)
     return data
 
+
 def alt_diff(tree1, tree2):
     tree3 = {}
     all_keys = sorted(set(tree1.keys() | tree2.keys()))
     for key in all_keys:
         if key not in tree2.keys():
-            tree3[key] = {'status' : 'removed', 'value' : tree1[key]}
+            tree3[key] = {'status': 'removed', 'value': tree1[key]}
         elif key not in tree1.keys():
-            tree3[key] = {'status' : 'added', 'value' : tree2[key]}
+            tree3[key] = {'status': 'added', 'value': tree2[key]}
         elif isinstance(tree1[key], dict) and isinstance(tree2[key], dict):
-            tree3[key] = {'status' : 'nested', 'value' : alt_diff(tree1[key], tree2[key])}
+            tree3[key] = {
+                'status': 'nested',
+                'value': alt_diff(tree1[key], tree2[key])
+            }
         else:
-            if tree1[key]==tree2[key]:
-                tree3[key] = {'status' : 'unchanged', 'value' : tree1[key]}
+            if tree1[key] == tree2[key]:
+                tree3[key] = {'status': 'unchanged', 'value': tree1[key]}
             else:
-                tree3[key] = {'status' : 'changed', 'old_value' : tree1[key], 'new_value' : tree2[key]}
+                tree3[key] = {
+                    'status': 'changed',
+                    'old_value': tree1[key],
+                    'new_value': tree2[key]
+                }
     return tree3
-# key removed
-# key added
-# value is dict? не забыть пр случай когда один словарь а другой не словарь
-    # yes - nested, replay
-    # no
-        #value is changed?
-            # yes - changed
-            # no - unchaged
 
 # привести дерево к ожидаемому результату
-# каждое погружение в глубину добавляет 4 символа, перед этим сделать пробел и написать {
+# каждое погружение в глубину добавляет 4 символа,
+# перед этим сделать пробел и написать {
 # уменьшение глубины написать }
-#def format_stylish(tree, depth):
+# def format_stylish(tree, depth):
 #    for key, item in tree.items():
-#if isinstance(item['value'],dict):
+# if isinstance(item['value'],dict):
 #    result.append(f"{space[:-2]}+ {key}: {{")
 #    result.extend(diff_out_easy(item['value'],depth + 1))
 #    result.append(f"{space}}}")
-#else:
-    #result.append(f"{space[:-2]}+ {key}: {item['value']}")
+# else:
+# result.append(f"{space[:-2]}+ {key}: {item['value']}")
 
 
 def main():
     parser()
-##    tree1 = temp_read('file1_1.json')
-##    tree2 = temp_read('file2_1.json')
-##    tree3 = alt_diff(tree1, tree2)
-##    tree4 = diff_out_heavy(tree3)
-##    print(tree3)
+#    tree1 = temp_read('file1_1.json')
+#    tree2 = temp_read('file2_1.json')
+#    tree3 = alt_diff(tree1, tree2)
+#    tree4 = diff_out_heavy(tree3)
+#    print(tree3)
     print('__________')
 #    tree4 = diff_out_easy(tree1)
-##    print("{\n" + "\n".join(tree4) + "\n}")
+#    print("{\n" + "\n".join(tree4) + "\n}")
     # Пример списка
 # Запись списка в файл
 #    with open('output.txt', 'w') as file:

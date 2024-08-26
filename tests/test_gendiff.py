@@ -91,8 +91,10 @@ def test_gendiff_plain():
         fee: 100500
     }
 }'''
-    assert True, 'ошибка функции gendiff с json'
-    assert True, 'ошибка функции gendiff с yml' 
+    result_json = gendiff(file_json_1, file_json_2)
+    result_yml = gendiff(file_yml_1, file_yml_2)
+    assert expected_output == result_json, 'ошибка функции gendiff с json'
+    assert expected_output == result_yml, 'ошибка функции gendiff с yml' 
 
 @pytest.fixture(scope="module")
 def module_fixture():
