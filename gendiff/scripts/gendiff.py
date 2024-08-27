@@ -1,6 +1,7 @@
 import argparse
 from gendiff.parse import read_file
 from gendiff.formatters.stylish import stylish_format
+from gendiff.formatters.plain import plain_format
 
 # вывод справки
 # по умолчанию есть ключ -h (--help)
@@ -28,13 +29,19 @@ def gendiff(path1, path2, format='stylish'):
     data2 = read_file(path2)
     print(data2)
     tree3 = alt_diff(data1, data2)
+    print(tree3)
     print(format)
-    if format == 'stylish':
-        result = stylish_format(tree3)
-        print('__________')
+    match format:
+        case 'stylish':
+            result = stylish_format(tree3)
+        case 'plain':
+            result = plain_format(tree3)
+        case _:
+            print('ssss')
+    print('===')
 #    tree4 = diff_out_easy(tree1)
-        print("{\n" + "\n".join(result) + "\n}")
-        return "{\n" + "\n".join(result) + "\n}"
+    print(result)
+    return result
     # Пример списка
 # Запись списка в файл
 
@@ -45,6 +52,7 @@ def temp_read(path):
     return data
 
 
+# создание альтернативного словаря
 def alt_diff(tree1, tree2):
     tree3 = {}
     all_keys = sorted(set(tree1.keys() | tree2.keys()))

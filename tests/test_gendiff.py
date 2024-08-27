@@ -21,7 +21,7 @@ def read_file(file_path, parse=False):
         else:
             return content
 
-def test_gendiff_plain():
+def test_gendiff_stylish():
     file_json_1 = get_fixture_path('file1.json')
     file_json_2 = get_fixture_path('file2.json')
 #    expected_output = read_file(get_fixture_path('result.json'), True)
@@ -42,7 +42,7 @@ def test_gendiff_plain():
     assert expected_output == result_yml, 'ошибка функции gendiff с плоским yml' 
 
 
-def test_gendiff_plain():
+def test_gendiff_stylish():
     file_json_1 = get_fixture_path('file1_1.json')
     file_json_2 = get_fixture_path('file2_1.json')
     file_yml_1 = get_fixture_path('file1_1.yml')
@@ -94,7 +94,31 @@ def test_gendiff_plain():
     result_json = gendiff(file_json_1, file_json_2)
     result_yml = gendiff(file_yml_1, file_yml_2)
     assert expected_output == result_json, 'ошибка функции gendiff с json'
-    assert expected_output == result_yml, 'ошибка функции gendiff с yml' 
+    assert expected_output == result_yml, 'ошибка функции gendiff с yml'
+
+
+def test_gendiff_plain():
+    file_json_1 = get_fixture_path('file1_1.json')
+    file_json_2 = get_fixture_path('file2_1.json')
+    file_yml_1 = get_fixture_path('file1_1.yml')
+    file_yml_2 = get_fixture_path('file2_1.yml')
+    plain_format = 'plain'
+    expected_output = '''Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]'''
+    result_json = gendiff(file_json_1, file_json_2, plain_format)
+    result_yml = gendiff(file_yml_1, file_yml_2, plain_format)
+    assert expected_output == result_json, 'ошибка функции gendiff с json формат plain'
+    assert expected_output == result_yml, 'ошибка функции gendiff с yml формат plain'
+
 
 @pytest.fixture(scope="module")
 def module_fixture():
