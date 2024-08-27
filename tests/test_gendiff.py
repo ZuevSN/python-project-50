@@ -2,7 +2,7 @@ import os
 import json
 import pytest
 #from gendiff.scripts.gendiff import sum
-from gendiff.generate_difference import diff
+from gendiff.generate_diff import generate_diff
 #poetry run pytest tests/
 
 def get_fixture_path(name):
@@ -36,9 +36,9 @@ def test_gendiff_stylish():
   + verbose: true
 }'''
 
-    result_json = diff(file_json_1, file_json_2)
+    result_json = generate_diff(file_json_1, file_json_2)
     assert expected_output == result_json, 'ошибка функции gendiff с плоским json' 
-    result_yml = diff(file_yml_1, file_yml_2)
+    result_yml = generate_diff(file_yml_1, file_yml_2)
     assert expected_output == result_yml, 'ошибка функции gendiff с плоским yml' 
 
 
@@ -91,8 +91,8 @@ def test_gendiff_stylish():
         fee: 100500
     }
 }'''
-    result_json = diff(file_json_1, file_json_2)
-    result_yml = diff(file_yml_1, file_yml_2)
+    result_json = generate_diff(file_json_1, file_json_2)
+    result_yml = generate_diff(file_yml_1, file_yml_2)
     assert expected_output == result_json, 'ошибка функции gendiff с json'
     assert expected_output == result_yml, 'ошибка функции gendiff с yml'
 
@@ -114,8 +114,8 @@ Property 'group1.baz' was updated. From 'bas' to 'bars'
 Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]'''
-    result_json = diff(file_json_1, file_json_2, plain_format)
-    result_yml = diff(file_yml_1, file_yml_2, plain_format)
+    result_json = generate_diff(file_json_1, file_json_2, plain_format)
+    result_yml = generate_diff(file_yml_1, file_yml_2, plain_format)
     assert expected_output == result_json, 'ошибка функции gendiff с json формат plain'
     assert expected_output == result_yml, 'ошибка функции gendiff с yml формат plain'
 
@@ -224,8 +224,8 @@ def test_gendiff_json():
         }
     }
 }'''
-    result_json = diff(file_json_1, file_json_2, json_format)
-    result_yml = diff(file_yml_1, file_yml_2, json_format)
+    result_json = generate_diff(file_json_1, file_json_2, json_format)
+    result_yml = generate_diff(file_yml_1, file_yml_2, json_format)
     assert expected_output == result_json, 'ошибка функции gendiff с json формат json'
     assert expected_output == result_yml, 'ошибка функции gendiff с yml формат json'
 
