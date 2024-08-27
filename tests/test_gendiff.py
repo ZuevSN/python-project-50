@@ -13,7 +13,7 @@ def read_file(file_path, parse=False):
         if parse:
             if file_extension == '.json':
                 return json.loads(content)
-            else: 
+            else:
                 raise ValueError(f"Неподдерживаемый формат {file_extension}")
         else:
             return content
@@ -33,9 +33,9 @@ def test_gendiff_stylish():
 }'''
 
     result_json = generate_diff(file_json_1, file_json_2)
-    assert expected_output == result_json, 'ошибка функции gendiff с плоским json' 
+    assert expected_output == result_json, 'ошибка функции gendiff с плоским json'
     result_yml = generate_diff(file_yml_1, file_yml_2)
-    assert expected_output == result_yml, 'ошибка функции gendiff с плоским yml' 
+    assert expected_output == result_yml, 'ошибка функции gendiff с плоским yml'
 
 
 def test_gendiff_stylish():
@@ -224,19 +224,3 @@ def test_gendiff_json():
     result_yml = generate_diff(file_yml_1, file_yml_2, json_format)
     assert expected_output == result_json, 'ошибка функции gendiff с json формат json'
     assert expected_output == result_yml, 'ошибка функции gendiff с yml формат json'
-
-
-@pytest.fixture(scope="module")
-def module_fixture():
-    print("Setup module fixture")
-    yield
-    print("Teardown module fixture")
-
-def test_one(module_fixture):
-    print("Running test_one")
-
-def test_two():
-    print("Running test_two")
-
-def test_three(module_fixture):
-    print("Running test_three")
