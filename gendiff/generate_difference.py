@@ -4,7 +4,7 @@ from gendiff.formatters.plain import plain_format
 from gendiff.formatters.json import json_format
 
 
-def generate_diff(path1, path2, format='stylish'):
+def diff(path1, path2, format='stylish'):
     result = []
     data1 = read_file(path1)
     data2 = read_file(path2)

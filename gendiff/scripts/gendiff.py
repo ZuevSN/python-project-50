@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import argparse
-from gendiff.generate_difference import generate_diff
+from gendiff.generate_difference import diff
 
 
-def main():
+def generate_diff():
     parser = argparse.ArgumentParser(description='Compares two configuration \
                                      files and shows a difference.')
     parser.add_argument('first_file')
@@ -12,8 +12,12 @@ def main():
                         default='stylish',
                         help='set format of output')
     args = parser.parse_args()
-    diff = generate_diff(args.first_file, args.second_file, args.format)
-    print(diff)
+    result = diff(args.first_file, args.second_file, args.format)
+    print(result)
+
+
+def main():
+    generate_diff()
 
 
 if __name__ == "__main__":
