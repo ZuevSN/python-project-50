@@ -15,13 +15,16 @@ def diff_out(tree, path_string=None):
                 string = f'Property \'{path_string}\' was removed'
                 result.append(string)
             case 'added':
+                value = value_in_string(item['value'])
                 string1 = f'Property \'{path_string}\' was added '
-                string2 = f'with value: {value_in_string(item['value'])}'
+                string2 = f'with value: {value}'
                 result.append(string1 + string2)
             case 'changed':
+                old_value = value_in_string(item['old_value'])
+                new_value = value_in_string(item['new_value'])
                 string1 = f'Property \'{path_string}\' was updated. '
-                string2 = f'From {value_in_string(item['old_value'])} '
-                string3 = f'to {value_in_string(item['new_value'])}'
+                string2 = f'From {old_value} '
+                string3 = f'to {new_value}'
                 result.append(string1 + string2 + string3)
             case 'nested':
                 if isinstance(item['value'], dict):
