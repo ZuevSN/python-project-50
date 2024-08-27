@@ -24,14 +24,9 @@ def parser():
 
 def gendiff(path1, path2, format='stylish'):
     result = []
-    print(path1)
     data1 = read_file(path1)
-    print(data1)
     data2 = read_file(path2)
-    print(data2)
     tree3 = alt_diff(data1, data2)
-    print(tree3)
-    print(format)
     match format:
         case 'stylish':
             result = stylish_format(tree3)
@@ -41,12 +36,8 @@ def gendiff(path1, path2, format='stylish'):
             result = json_format(tree3)
         case _:
             print('Wrong format')
-    print('===')
-#    tree4 = diff_out_easy(tree1)
     print(result)
     return result
-    # Пример списка
-# Запись списка в файл
 
 
 def temp_read(path):

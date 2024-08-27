@@ -36,7 +36,6 @@ def load_yaml(path):
 
 def read_file(path):
     extension = path.rsplit('.')[-1]
-    print(extension)
     match extension:
         case 'json':
             data = load_json(path)
