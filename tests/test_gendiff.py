@@ -1,9 +1,7 @@
 import os
 import json
 import pytest
-#from gendiff.scripts.gendiff import sum
 from gendiff.generate_diff import generate_diff
-#poetry run pytest tests/
 
 def get_fixture_path(name):
     return os.path.join('tests/fixtures', name)
@@ -16,7 +14,6 @@ def read_file(file_path, parse=False):
             if file_extension == '.json':
                 return json.loads(content)
             else: 
-#file_extension == '.yaml':
                 raise ValueError(f"Неподдерживаемый формат {file_extension}")
         else:
             return content
@@ -24,7 +21,6 @@ def read_file(file_path, parse=False):
 def test_gendiff_stylish():
     file_json_1 = get_fixture_path('file1.json')
     file_json_2 = get_fixture_path('file2.json')
-#    expected_output = read_file(get_fixture_path('result.json'), True)
     file_yml_1 = get_fixture_path('file1.yml')
     file_yml_2 = get_fixture_path('file2.yml')
     expected_output = '''{
@@ -244,5 +240,3 @@ def test_two():
 
 def test_three(module_fixture):
     print("Running test_three")
-
-#poetry run pytest tests/ -vv

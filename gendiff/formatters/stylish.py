@@ -1,4 +1,3 @@
-# обход сложного словаря
 def diff_out_heavy(tree, depth=1):
     result = []
     space = '    ' * depth
@@ -33,7 +32,6 @@ def add_to_result(result, status_key, value, depth):
     return result
 
 
-# обход облегченного словаря (нет ключей 'status')
 def diff_out_light(tree, depth=1):
     result = []
     for key, item in tree.items():
@@ -41,7 +39,6 @@ def diff_out_light(tree, depth=1):
     return result
 
 
-# исправление переменных сломавшихся из-за загрузки
 def fix_value(value):
     if value is None:
         return 'null'
