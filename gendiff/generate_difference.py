@@ -18,7 +18,6 @@ def generate_diff(path1, path2, format='stylish'):
             result = json_format(tree3)
         case _:
             print('Wrong format')
-    print(result)
     return result
 
 
