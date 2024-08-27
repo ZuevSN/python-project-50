@@ -120,6 +120,116 @@ Property 'group3' was added with value: [complex value]'''
     assert expected_output == result_yml, 'ошибка функции gendiff с yml формат plain'
 
 
+def test_gendiff_json():
+    file_json_1 = get_fixture_path('file1_1.json')
+    file_json_2 = get_fixture_path('file2_1.json')
+    file_yml_1 = get_fixture_path('file1_1.yml')
+    file_yml_2 = get_fixture_path('file2_1.yml')
+    json_format='json'
+    expected_output = '''{
+    "common": {
+        "status": "nested",
+        "value": {
+            "follow": {
+                "status": "added",
+                "value": false
+            },
+            "setting1": {
+                "status": "unchanged",
+                "value": "Value 1"
+            },
+            "setting2": {
+                "status": "removed",
+                "value": 200
+            },
+            "setting3": {
+                "status": "changed",
+                "old_value": true,
+                "new_value": null
+            },
+            "setting4": {
+                "status": "added",
+                "value": "blah blah"
+            },
+            "setting5": {
+                "status": "added",
+                "value": {
+                    "key5": "value5"
+                }
+            },
+            "setting6": {
+                "status": "nested",
+                "value": {
+                    "doge": {
+                        "status": "nested",
+                        "value": {
+                            "wow": {
+                                "status": "changed",
+                                "old_value": "",
+                                "new_value": "so much"
+                            }
+                        }
+                    },
+                    "key": {
+                        "status": "unchanged",
+                        "value": "value"
+                    },
+                    "ops": {
+                        "status": "added",
+                        "value": "vops"
+                    }
+                }
+            }
+        }
+    },
+    "group1": {
+        "status": "nested",
+        "value": {
+            "baz": {
+                "status": "changed",
+                "old_value": "bas",
+                "new_value": "bars"
+            },
+            "foo": {
+                "status": "unchanged",
+                "value": "bar"
+            },
+            "nest": {
+                "status": "changed",
+                "old_value": {
+                    "key": "value"
+                },
+                "new_value": "str"
+            }
+        }
+    },
+    "group2": {
+        "status": "removed",
+        "value": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        }
+    },
+    "group3": {
+        "status": "added",
+        "value": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        }
+    }
+}'''
+    result_json = gendiff(file_json_1, file_json_2, json_format)
+    result_yml = gendiff(file_yml_1, file_yml_2, json_format)
+    assert expected_output == result_json, 'ошибка функции gendiff с json формат json'
+    assert expected_output == result_yml, 'ошибка функции gendiff с yml формат json'
+
+
 @pytest.fixture(scope="module")
 def module_fixture():
     print("Setup module fixture")

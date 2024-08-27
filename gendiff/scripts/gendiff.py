@@ -2,6 +2,7 @@ import argparse
 from gendiff.parse import read_file
 from gendiff.formatters.stylish import stylish_format
 from gendiff.formatters.plain import plain_format
+from gendiff.formatters.json import json_format
 
 # вывод справки
 # по умолчанию есть ключ -h (--help)
@@ -36,8 +37,10 @@ def gendiff(path1, path2, format='stylish'):
             result = stylish_format(tree3)
         case 'plain':
             result = plain_format(tree3)
+        case 'json':
+            result = json_format(tree3)
         case _:
-            print('ssss')
+            print('Wrong format')
     print('===')
 #    tree4 = diff_out_easy(tree1)
     print(result)
