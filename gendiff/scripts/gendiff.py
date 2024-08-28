@@ -17,4 +17,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-# poetry run gendiff tests/fixtures/file1.yml tests/fixtures/file2.json -f plain
+# poetry run gendiff tests/fixtures/file1.yml tests/fixtures/file2.json -f stylish
