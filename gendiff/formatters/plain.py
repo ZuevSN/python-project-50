@@ -1,12 +1,12 @@
-def plain_format(tree):
-    result = diff_out(tree)
+def plain_format(data):
+    result = diff_out(data)
     result_out = "\n".join(result)
     return result_out
 
 
-def diff_out(tree, path_string=None):
+def diff_out(data, path_string=None):
     result = []
-    for key, item in tree.items():
+    for key, item in data.items():
         temp = path_string
         if item.get('status'):
             path_string = f'{path_string}.{key}' if path_string else key

@@ -1,7 +1,13 @@
-def diff_out_heavy(tree, depth=1):
+def stylish_format(data):
+    result = diff_out_heavy(data)
+    result_out = "{\n" + "\n".join(result) + "\n}"
+    return result_out
+
+
+def diff_out_heavy(data, depth=1):
     result = []
     space = '    ' * depth
-    for key, item in tree.items():
+    for key, item in data.items():
         match item.get('status'):
             case 'removed':
                 add_to_result(result, f'- {key}', item['value'], depth)
@@ -32,9 +38,9 @@ def add_to_result(result, status_key, value, depth):
     return result
 
 
-def diff_out_light(tree, depth=1):
+def diff_out_light(data, depth=1):
     result = []
-    for key, item in tree.items():
+    for key, item in data.items():
         add_to_result(result, f'  {key}', item, depth)
     return result
 
@@ -46,9 +52,3 @@ def fix_value(value):
         return 'true' if value else 'false'
     else:
         return str(value)
-
-
-def stylish_format(tree):
-    result = diff_out_heavy(tree)
-    result_out = "{\n" + "\n".join(result) + "\n}"
-    return result_out
