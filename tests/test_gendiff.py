@@ -4,8 +4,8 @@ from gendiff.generate_diff import generate_diff
 
 
 @pytest.mark.parametrize("file1, file2, format, expected", [
-    ('file1_simple.json', 'file2_simple.json', 'stylish', 'result_simple_stylish'),
-    ('file1_simple.yml', 'file2_simple.yml', 'stylish', 'result_simple_stylish'),
+    ('file1_easy.json', 'file2_easy.json', 'stylish', 'result_easy_stylish'),
+    ('file1_easy.yml', 'file2_easy.yml', 'stylish', 'result_easy_stylish'),
     ('file1.json', 'file2.json', 'stylish', 'result_stylish'),
     ('file1.json', 'file2.json', 'plain', 'result_plain'),
     ('file1.json', 'file2.json', 'json', 'result_json'),
