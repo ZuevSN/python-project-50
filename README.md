@@ -13,15 +13,16 @@
 
 Результат сравнения может выводится в 3 форматах:
 1. **stylish** (формат по умолчанию).
-  Вывод строится на основе того, как изменилось содержимое во втором файле относительно первого.
-  В случае, если значение по ключу не изменилось будет выведена строка без идентификатора
-  В случае измнения значения по ключу - с минусом будет выведено прежнее значение и с плюсом новое значение.
-  В случае удаления ключа будет выведена строка с минусом.
-  В случание появления нового ключа будет выведена строка с плюсом
-  Во всех остальных ситуациях значение по ключу либо отличается, либо ключ есть только в одном файле. 
-  Пример
+      Вывод строится на основе того, как изменилось содержимое во втором файле относительно первого.
+      В случае, если значение по ключу не изменилось будет выведена строка без идентификатора
+      В случае измнения значения по ключу - с минусом будет выведено прежнее значение и с плюсом новое значение.
+      В случае удаления ключа будет выведена строка с минусом.
+      В случание появления нового ключа будет выведена строка с плюсом
+      Во всех остальных ситуациях значение по ключу либо отличается, либо ключ есть только в одном файле.
 
-file1.json
+      Пример
+
+      file1.json
 
         {
           "host": "hexlet.io",
@@ -30,7 +31,7 @@ file1.json
           "follow": false
         }
   
-  file2.json:
+      file2.json:
   
         {
           "timeout": 20,
@@ -38,7 +39,7 @@ file1.json
           "host": "hexlet.io"
         }
   
-  Результат:
+      Результат:
   
         {
           - follow: false
@@ -55,13 +56,86 @@ file1.json
    В случае добавления ключа пишется ,что опция была дабавлена с выводом значения
    В случае изменения по ключу выводится старое и новое значение.
    
-   Пример вывода:
+   Пример
    
+   file1.json:
+   
+        {
+          "common": {
+            "setting1": "Value 1",
+            "setting2": 200,
+            "setting3": true,
+            "setting6": {
+              "key": "value",
+              "doge": {
+                "wow": ""
+              }
+            }
+          },
+          "group1": {
+            "baz": "bas",
+            "foo": "bar",
+            "nest": {
+              "key": "value"
+            }
+          },
+          "group2": {
+            "abc": 12345,
+            "deep": {
+              "id": 45
+            }
+          }
+        }
+   
+   file2.json:
+   
+           {
+          "common": {
+            "follow": false,
+            "setting1": "Value 1",
+            "setting3": null,
+            "setting4": "blah blah",
+            "setting5": {
+              "key5": "value5"
+            },
+            "setting6": {
+              "key": "value",
+              "ops": "vops",
+              "doge": {
+                "wow": "so much"
+              }
+            }
+          },
+          "group1": {
+            "foo": "bar",
+            "baz": "bars",
+            "nest": "str"
+          },
+          "group3": {
+            "deep": {
+              "id": {
+                "number": 45
+              }
+            },
+            "fee": 100500
+          }
+        }
+
+    Результат:
+
         Property 'common.follow' was added with value: false
         Property 'common.setting2' was removed
         Property 'common.setting3' was updated. From true to null
+        Property 'common.setting4' was added with value: 'blah blah'
+        Property 'common.setting5' was added with value: [complex value]
+        Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+        Property 'common.setting6.ops' was added with value: 'vops'
+        Property 'group1.baz' was updated. From 'bas' to 'bars'
+        Property 'group1.nest' was updated. From [complex value] to 'str'
+        Property 'group2' was removed
+        Property 'group3' was added with value: [complex value]
 
-3. **json**
+4. **json**
    В случае этого формата выводится выводится вся информация по 2 файлам с указанием разницы между ними в виде json.
 
    
