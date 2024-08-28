@@ -13,7 +13,6 @@ from gendiff.generate_diff import generate_diff
     ('file1.yml', 'file2.yml', 'plain', 'result_plain'),
     ('file1.yml', 'file2.yml', 'json', 'result_json'),
 ])
-
 def test_gendiff(file1, file2, format, expected):
     def get_fixture_path(name):
         return os.path.join('tests/fixtures', name)
