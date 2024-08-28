@@ -39,7 +39,7 @@ def generate_dict(data1, data2):
                 data3[key] = {'status': 'unchanged', 'value': data1[key]}
             else:
                 data3[key] = {
-                    'status': 'changed',
+                    'status': 'updated',
                     'old_value': data1[key],
                     'new_value': data2[key]
                 }

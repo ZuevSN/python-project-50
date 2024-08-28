@@ -7,29 +7,33 @@ def plain_format(data):
 def diff_out(data, path_string=None):
     result = []
     for key, item in data.items():
-        temp = path_string
-        if item.get('status'):
-            path_string = f'{path_string}.{key}' if path_string else key
-        match item.get('status'):
-            case 'removed':
-                string = f'Property \'{path_string}\' was removed'
-                result.append(string)
-            case 'added':
-                value = value_in_string(item['value'])
-                string = f'Property \'{path_string}\' was added '\
-                    f'with value: {value}'
-                result.append(string)
-            case 'changed':
-                old_value = value_in_string(item['old_value'])
-                new_value = value_in_string(item['new_value'])
-                string = f'Property \'{path_string}\' was updated. '\
-                    f'From {old_value} to {new_value}'
-                result.append(string)
+        status = item.get('status')
+        new_path_string = f'{path_string}.{key}' if path_string else key
+        match status:
             case 'nested':
-                if isinstance(item['value'], dict):
-                    result.extend(diff_out(item['value'], path_string))
-        path_string = temp
+                result.extend(diff_out(item['value'], new_path_string))
+            case 'removed' | 'added' | 'updated':
+                string = generate_string(new_path_string, status, item)
+                result.append(string)
+            case _:
+                pass
     return result
+
+
+def generate_string(path_string, status, item):
+    string_out = None
+    string = f'Property \'{path_string}\' was {status}'
+    match status:
+        case 'removed':
+            string_out = string
+        case 'added':
+            value = value_in_string(item['value'])
+            string_out = f'{string} with value: {value}'
+        case 'updated':
+            old_value = value_in_string(item['old_value'])
+            new_value = value_in_string(item['new_value'])
+            string_out = f'{string}. From {old_value} to {new_value}'
+    return string_out
 
 
 def value_in_string(value):

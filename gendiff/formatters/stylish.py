@@ -13,7 +13,7 @@ def diff_out_heavy(data, depth=1):
                 add_to_result(result, f'- {key}', item['value'], depth)
             case 'added':
                 add_to_result(result, f'+ {key}', item['value'], depth)
-            case 'changed':
+            case 'updated':
                 add_to_result(result, f'- {key}', item['old_value'], depth)
                 add_to_result(result, f'+ {key}', item['new_value'], depth)
             case 'unchanged':

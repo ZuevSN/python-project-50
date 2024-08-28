@@ -15,7 +15,7 @@
                 "value": 200
             },
             "setting3": {
-                "status": "changed",
+                "status": "updated",
                 "old_value": true,
                 "new_value": null
             },
@@ -36,7 +36,7 @@
                         "status": "nested",
                         "value": {
                             "wow": {
-                                "status": "changed",
+                                "status": "updated",
                                 "old_value": "",
                                 "new_value": "so much"
                             }
@@ -58,7 +58,7 @@
         "status": "nested",
         "value": {
             "baz": {
-                "status": "changed",
+                "status": "updated",
                 "old_value": "bas",
                 "new_value": "bars"
             },
@@ -67,7 +67,7 @@
                 "value": "bar"
             },
             "nest": {
-                "status": "changed",
+                "status": "updated",
                 "old_value": {
                     "key": "value"
                 },

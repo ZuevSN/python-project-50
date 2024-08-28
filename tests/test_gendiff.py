@@ -29,4 +29,6 @@ def test_generate_diff(file1, file2, format, expected):
     file_1 = get_fixture_path(file1)
     file_2 = get_fixture_path(file2)
     result = generate_diff(file_1, file_2, format)
-    assert result == expected_result, f"Неправильный результат функции generate_diff с файлами {file1}, {file2} и форматом {format}."
+    error_string = f'Function generate_diff gave wrong output. '\
+    f'Files: {file1}, {file2}. Format: {format}.'
+    assert result == expected_result, error_string
