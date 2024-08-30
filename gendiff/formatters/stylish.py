@@ -17,7 +17,7 @@ def diff_out_heavy(data, depth=1):
                 add_to_result(result, f'- {key}', item['old_value'], depth)
                 add_to_result(result, f'+ {key}', item['new_value'], depth)
             case 'unchanged':
-                string = f"{space}{key}: {fix_value(item['value'])}"
+                string = f"{space}{key}: {to_str(item['value'])}"
                 result.append(string)
             case 'nested':
                 result.append(f'{space}{key}: {{')
@@ -33,7 +33,7 @@ def add_to_result(result, status_key, value, depth):
         result.extend(diff_out_light(value, depth + 1))
         result.append(f'{space}}}')
     else:
-        string = f'{space[:-2]}{status_key}: {fix_value(value)}'
+        string = f'{space[:-2]}{status_key}: {to_str(value)}'
         result.append(string)
     return result
 
@@ -45,7 +45,7 @@ def diff_out_light(data, depth=1):
     return result
 
 
-def fix_value(value):
+def to_str(value):
     if value is None:
         return 'null'
     elif isinstance(value, bool):

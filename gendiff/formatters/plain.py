@@ -12,31 +12,26 @@ def diff_out(data, path_string=None):
         match status:
             case 'nested':
                 result.extend(diff_out(item['value'], new_path_string))
-            case 'removed' | 'added' | 'updated':
-                string = generate_string(new_path_string, status, item)
+            case 'removed':
+                string = f'Property \'{new_path_string}\' was removed'
+                result.append(string)
+            case 'added':
+                value = to_str(item['value'])
+                string = f'Property \'{new_path_string}\' was added '\
+                    f'with value: {value}'
+                result.append(string)
+            case 'updated':
+                old_value = to_str(item['old_value'])
+                new_value = to_str(item['new_value'])
+                string = f'Property \'{new_path_string}\' was updated. '\
+                    f'From {old_value} to {new_value}'
                 result.append(string)
             case _:
                 pass
     return result
 
 
-def generate_string(path_string, status, item):
-    string_out = None
-    string = f'Property \'{path_string}\' was {status}'
-    match status:
-        case 'removed':
-            string_out = string
-        case 'added':
-            value = value_in_string(item['value'])
-            string_out = f'{string} with value: {value}'
-        case 'updated':
-            old_value = value_in_string(item['old_value'])
-            new_value = value_in_string(item['new_value'])
-            string_out = f'{string}. From {old_value} to {new_value}'
-    return string_out
-
-
-def value_in_string(value):
+def to_str(value):
     if isinstance(value, dict):
         return '[complex value]'
     elif value is None:
