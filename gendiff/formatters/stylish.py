@@ -1,27 +1,30 @@
 def stylish_format(data):
-    result_out = to_str(data, 0)
+    result_out = to_str(data)
     return result_out
 
 
-def cicle(data, depth=1):
-    result = []
-    for key, item in data.items():
-        line = build_line(key, item, depth)
-        result.append(line)
-    return result
-
-
-def to_str(value, depth):
+def to_str(value, depth=0):
     if isinstance(value, dict):
-        indent = calculate_indent(depth)
-        data = cicle(value, depth + 1)
-        return '{\n' + '\n'.join(data) + '\n' + indent + '}'
+        return unite_lines(value, depth)
     elif value is None:
         return 'null'
     elif isinstance(value, bool):
         return 'true' if value else 'false'
     else:
         return str(value)
+
+
+def calculate_indent(depth, shift=0):
+    return ' ' * (4 * depth + shift)
+
+
+def unite_lines(data, depth):
+    lines = []
+    indent = calculate_indent(depth)
+    for key, item in data.items():
+        line = build_line(key, item, depth + 1)
+        lines.append(line)
+    return '{\n' + '\n'.join(lines) + '\n' + indent + '}'
 
 
 def build_line(key, item, depth):
@@ -46,7 +49,3 @@ def build_line(key, item, depth):
                 return f"{indent}  {key}: {to_str(item, depth)}"
     else:
         return f"{indent}  {key}: {to_str(item, depth)}"
-
-
-def calculate_indent(depth, shift=0):
-    return ' ' * (4 * depth + shift)
