@@ -1,60 +1,20 @@
 def stylish_format(data):
-    result = diff_out(data)
-    result_out = "{\n" + "\n".join(result) + "\n}"
+    result_out = to_str(data, 0)
     return result_out
 
 
-def diff_out(data, depth=1):
+def cicle(data, depth=1):
     result = []
-    indent = calculate_indent(depth, -2)
     for key, item in data.items():
-        if isinstance(item, dict):
-            match item.get('status'):
-                case 'removed':
-                    value = item['value']
-                    result.append(
-                        f"{indent}- {key}: {to_str(value, depth)}"
-                    )
-                case 'added':
-                    value = item['value']
-                    result.append(
-                        f"{indent}+ {key}: {to_str(value, depth)}"
-                    )
-                case 'updated':
-                    old_value = item['old_value']
-                    new_value = item['new_value']
-                    result.append(
-                        f"{indent}- {key}: {to_str(old_value, depth)}"
-                    )
-                    result.append(
-                        f"{indent}+ {key}: {to_str(new_value, depth)}"
-                    )
-                case 'unchanged':
-                    value = item['value']
-                    result.append(
-                        f"{indent}  {key}: {to_str(value, depth)}"
-                    )
-                case 'nested':
-                    result.append(f'{indent}  {key}: {{')
-                    result.extend(diff_out(item['value'], depth + 1))
-                    result.append(f'{indent}  }}')
-                case None:
-                    result.append(f"{indent}  {key}: {{")
-                    result.extend(diff_out(item, depth + 1))
-                    result.append(f"{indent}  }}")
-        else:
-            result.append(f"{indent}  {key}: {to_str(item, depth)}")
+        line = build_line(key, item, depth)
+        result.append(line)
     return result
 
 
-def calculate_indent(depth, shift=0):
-    return ' ' * (4 * depth + shift)
-
-
-def to_str(value, depth=1):
+def to_str(value, depth):
     if isinstance(value, dict):
         indent = calculate_indent(depth)
-        data = diff_out(value, depth + 1)
+        data = cicle(value, depth + 1)
         return '{\n' + '\n'.join(data) + '\n' + indent + '}'
     elif value is None:
         return 'null'
@@ -62,3 +22,31 @@ def to_str(value, depth=1):
         return 'true' if value else 'false'
     else:
         return str(value)
+
+
+def build_line(key, item, depth):
+    indent = calculate_indent(depth, -2)
+    if isinstance(item, dict):
+        value = item.get('value')
+        old_value = item.get('old_value')
+        new_value = item.get('new_value')
+        status = item.get('status')
+        match status:
+            case 'removed':
+                return f"{indent}- {key}: {to_str(value, depth)}"
+            case 'added':
+                return f"{indent}+ {key}: {to_str(value, depth)}"
+            case 'updated':
+                return f"{indent}- {key}: {to_str(old_value, depth)}"\
+                    f'\n'\
+                    f"{indent}+ {key}: {to_str(new_value, depth)}"
+            case 'unchanged' | 'nested':
+                return f"{indent}  {key}: {to_str(value, depth)}"
+            case None:
+                return f"{indent}  {key}: {to_str(item, depth)}"
+    else:
+        return f"{indent}  {key}: {to_str(item, depth)}"
+
+
+def calculate_indent(depth, shift=0):
+    return ' ' * (4 * depth + shift)
