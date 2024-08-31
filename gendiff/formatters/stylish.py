@@ -1,3 +1,8 @@
+REMOVED = '- '
+ADDED = '+ '
+UNCHANGED = '  '
+
+
 def stylish_format(data):
     result_out = to_str(data)
     return result_out
@@ -36,16 +41,16 @@ def build_line(key, item, depth):
         status = item.get('status')
         match status:
             case 'removed':
-                return f"{indent}- {key}: {to_str(value, depth)}"
+                return f"{indent}{REMOVED}{key}: {to_str(value, depth)}"
             case 'added':
-                return f"{indent}+ {key}: {to_str(value, depth)}"
+                return f"{indent}{ADDED}{key}: {to_str(value, depth)}"
             case 'updated':
-                return f"{indent}- {key}: {to_str(old_value, depth)}"\
+                return f"{indent}{REMOVED}{key}: {to_str(old_value, depth)}"\
                     f'\n'\
-                    f"{indent}+ {key}: {to_str(new_value, depth)}"
+                    f"{indent}{ADDED}{key}: {to_str(new_value, depth)}"
             case 'unchanged' | 'nested':
-                return f"{indent}  {key}: {to_str(value, depth)}"
+                return f"{indent}{UNCHANGED}{key}: {to_str(value, depth)}"
             case None:
-                return f"{indent}  {key}: {to_str(item, depth)}"
+                return f"{indent}{UNCHANGED}{key}: {to_str(item, depth)}"
     else:
-        return f"{indent}  {key}: {to_str(item, depth)}"
+        return f"{indent}{UNCHANGED}{key}: {to_str(item, depth)}"
