@@ -1,52 +1,62 @@
 def stylish_format(data):
-    result = diff_out_heavy(data)
+    result = diff_out(data)
     result_out = "{\n" + "\n".join(result) + "\n}"
     return result_out
 
 
-def diff_out_heavy(data, depth=1):
+def diff_out(data, depth=1):
     result = []
-    space = '    ' * depth
+    indent = calculate_indent(depth, -2)
     for key, item in data.items():
-        match item.get('status'):
-            case 'removed':
-                add_to_result(result, f'- {key}', item['value'], depth)
-            case 'added':
-                add_to_result(result, f'+ {key}', item['value'], depth)
-            case 'updated':
-                add_to_result(result, f'- {key}', item['old_value'], depth)
-                add_to_result(result, f'+ {key}', item['new_value'], depth)
-            case 'unchanged':
-                string = f"{space}{key}: {to_str(item['value'])}"
-                result.append(string)
-            case 'nested':
-                result.append(f'{space}{key}: {{')
-                result.extend(diff_out_heavy(item['value'], depth + 1))
-                result.append(f'{space}}}')
+        if isinstance(item, dict):
+            match item.get('status'):
+                case 'removed':
+                    value = item['value']
+                    result.append(
+                        f"{indent}- {key}: {to_str(value, depth)}"
+                    )
+                case 'added':
+                    value = item['value']
+                    result.append(
+                        f"{indent}+ {key}: {to_str(value, depth)}"
+                    )
+                case 'updated':
+                    old_value = item['old_value']
+                    new_value = item['new_value']
+                    result.append(
+                        f"{indent}- {key}: {to_str(old_value, depth)}"
+                    )
+                    result.append(
+                        f"{indent}+ {key}: {to_str(new_value, depth)}"
+                    )
+                case 'unchanged':
+                    value = item['value']
+                    result.append(
+                        f"{indent}  {key}: {to_str(value, depth)}"
+                    )
+                case 'nested':
+                    result.append(f'{indent}  {key}: {{')
+                    result.extend(diff_out(item['value'], depth + 1))
+                    result.append(f'{indent}  }}')
+                case None:
+                    result.append(f"{indent}  {key}: {{")
+                    result.extend(diff_out(item, depth + 1))
+                    result.append(f"{indent}  }}")
+        else:
+            result.append(f"{indent}  {key}: {to_str(item, depth)}")
     return result
 
 
-def add_to_result(result, status_key, value, depth):
-    space = '    ' * depth
+def calculate_indent(depth, shift=0):
+    return ' ' * (4 * depth + shift)
+
+
+def to_str(value, depth=1):
     if isinstance(value, dict):
-        result.append(f'{space[:-2]}{status_key}: {{')
-        result.extend(diff_out_light(value, depth + 1))
-        result.append(f'{space}}}')
-    else:
-        string = f'{space[:-2]}{status_key}: {to_str(value)}'
-        result.append(string)
-    return result
-
-
-def diff_out_light(data, depth=1):
-    result = []
-    for key, item in data.items():
-        add_to_result(result, f'  {key}', item, depth)
-    return result
-
-
-def to_str(value):
-    if value is None:
+        indent = calculate_indent(depth)
+        data = diff_out(value, depth + 1)
+        return '{\n' + '\n'.join(data) + '\n' + indent + '}'
+    elif value is None:
         return 'null'
     elif isinstance(value, bool):
         return 'true' if value else 'false'
